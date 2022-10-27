@@ -8,7 +8,7 @@ class CLUIEngine:
         self.position = [0, 0]
         self.content = []
         self.columns = []
-        self.ishidden = True
+
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
@@ -17,13 +17,9 @@ class CLUIEngine:
             print('CLUIE: Canvas resolution fetching error. Check if you typed it in following format [WIDTH]x[HEIGHT].')
 
         try:
-            if type(model) == str:
-                with open('model.cluie', 'r', encoding='utf-8') as load_model:
-                    self.view_model = self.fetch_model(load_model.readlines())
-            else:
-                match model[0]:
-                    case 'FramedList':
-                        self.model = models.get_model(model[0], self.canvas_width, self.canvas_height, model[1])
+            match model:
+                case 'FramedList':
+                    self.model = models.get_model(self, model)
         except:
             print('CLUIE: Model importing error. Make sure it\'s placed in the same folder and is properly prepared.')
         
@@ -46,15 +42,10 @@ class CLUIEngine:
         except:
             print('CLUIE: Controlling keys assign error. Check documentation for more information.')
 
-        listener = keyboard.Listener(on_press=self.on_press).start()
 
     def display(self):
-        self.ishidden = False
-        vgen.update_canvas(None, self.view_model, self.position, self.content)
-    
-    def generate_model(self, model_type):
-        self.view_model = models.get_model(self, model_type)
-        print(self.view_model)
+        listener = keyboard.Listener(on_press=self.on_press).start()
+        vgen.update_canvas(None, self.model, self.position, self.content)
 
     def add_column(self, name, width):
         if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
@@ -71,4 +62,4 @@ class CLUIEngine:
             case self.key_left: pressed_key = 'left'; self.position[0] -= 1
             case self.key_right: pressed_key = 'right'; self.position[0] += 1
             case self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
-        if pressed_key != None and not self.ishidden: vgen.update_canvas(pressed_key, self.view_model, self.position, self.content)
+        if pressed_key != None: vgen.update_canvas(pressed_key, self.model, self.position, self.content)
