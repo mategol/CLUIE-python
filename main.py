@@ -52,11 +52,9 @@ class CLUIEngine:
     
     def generate_model(self, model_type):
         self.view_model = models.get_model(self, model_type)
-        print(self.columns)
-        print(self.view_model)
 
     def add_column(self, name, width):
-        if len(self.columns) == 0 or 5 < self.canvas_width/len(self.columns):
+        if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
             self.columns.append([name, width])
         else:
             print('CLUIE: One column must be at least 3 units wide.')
