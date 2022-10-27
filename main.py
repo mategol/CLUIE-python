@@ -1,8 +1,11 @@
 import resources.view_generator as vgen
 from pynput import keyboard
 
+FramedList = ['asd']
+
 class CLUIEngine:
     def __init__(self, model, resolution, controlling_keys):
+        print(model)
         self.position = [0, 0]
         self.content = []
         try:
@@ -43,9 +46,10 @@ class CLUIEngine:
     def on_press(self, key):
         key = str(key).replace('\'', '')
         pressed_key = None
-        if key == self.key_up: pressed_key = 'up'; self.position[1] += 1
-        elif key == self.key_down: pressed_key = 'down'; self.position[1] -= 1
-        elif key == self.key_left: pressed_key = 'left'; self.position[0] -= 1
-        elif key == self.key_right: pressed_key = 'right'; self.position[0] += 1
-        elif key == self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
+        match key:
+            case self.key_up: pressed_key = 'up'; self.position[1] += 1
+            case self.key_down: pressed_key = 'down'; self.position[1] -= 1
+            case self.key_left: pressed_key = 'left'; self.position[0] -= 1
+            case self.key_right: pressed_key = 'right'; self.position[0] += 1
+            case self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
         if pressed_key != None: vgen.update_canvas(pressed_key, self.view_model, self.position, self.content)
