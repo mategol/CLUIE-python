@@ -1,0 +1,2 @@
+def framedlist():
+    return 'asd'
