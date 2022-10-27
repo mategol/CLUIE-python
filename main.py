@@ -1,13 +1,21 @@
-import resources.view_generator
+import resources.view_generator as vgen
 from pynput import keyboard
 
 class CLUIEngine:
-    def __init__(self, resolution, controlling_keys):
+    def __init__(self, model, resolution, controlling_keys):
+        self.position = [0, 0]
+        self.content = []
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
         except:
             print('CLUIE: Canvas resolution fetching error. Check if you typed it in following format [WIDTH]x[HEIGHT].')
+
+        try:
+            with open('model.cluie', 'r', encoding='utf-8') as load_model:
+                self.view_model = self.fetch_model(load_model.readlines())
+        except:
+            print('CLUIE: Model importing error. Make sure it\'s placed in the same folder and is properly prepared.')
         
         try:
             if controlling_keys == 'WSADE':
@@ -27,7 +35,17 @@ class CLUIEngine:
         except:
             print('CLUIE: Controlling keys assign error. Check documentation for more information.')
 
-        listener = keyboard.Listener(on_press=CLUIEngine.on_press).start()
+        listener = keyboard.Listener(on_press=self.on_press).start()
     
-    def on_press(key):
-        print(key)
+    def fetch_model(self, model):
+        print('asd')
+
+    def on_press(self, key):
+        key = str(key).replace('\'', '')
+        pressed_key = None
+        if key == self.key_up: pressed_key = 'up'; self.position[1] += 1
+        elif key == self.key_down: pressed_key = 'down'; self.position[1] -= 1
+        elif key == self.key_left: pressed_key = 'left'; self.position[0] -= 1
+        elif key == self.key_right: pressed_key = 'right'; self.position[0] += 1
+        elif key == self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
+        if pressed_key != None: vgen.update_canvas(pressed_key, self.view_model, self.position, self.content)
