@@ -10,7 +10,7 @@ def get_model(settings, model_type):
                 total_manuals += settings.columns[column][1]
         for column in range(len(settings.columns)):
             if settings.columns[column][1] == 'auto':
-                columns.append([settings.columns[column][0], int((settings.canvas_width-total_manuals)/total_autos)])
+                columns.append([settings.columns[column][0], int((settings.canvas_width-total_manuals-len(settings.columns)+1)/total_autos)])
             else:
                 columns.append(settings.columns[column])
         return columns
