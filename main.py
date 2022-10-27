@@ -1,7 +1,8 @@
 import resources.view_generator as vgen
+import resources.models as models
 from pynput import keyboard
 
-FramedList = ['asd']
+FramedList = models.framedlist()
 
 class CLUIEngine:
     def __init__(self, model, resolution, controlling_keys):
