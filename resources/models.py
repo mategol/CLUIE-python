@@ -28,4 +28,4 @@ def get_model(settings, model_type):
         third_row += '━'*columns[i][1] + '╋'
     first_row, third_row = first_row[:-1] + '┓', third_row[:-1] + '┫'
 
-    return first_row + '\n' + second_row + '\n' + third_row
+    return {'model_id': 'framedlist', 'first_row': first_row, 'second_row': second_row, 'third_row': third_row, 'columns': columns}
