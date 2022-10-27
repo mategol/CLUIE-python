@@ -1,6 +1,7 @@
 import resources.view_generator as vgen
 import resources.models as models
 from pynput import keyboard
+import os
 
 class CLUIEngine:
     def __init__(self, model, resolution, controlling_keys):
@@ -11,6 +12,7 @@ class CLUIEngine:
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
+            os.system('mode ' + str(self.canvas_width+2) + ',' + str(self.canvas_height))
         except:
             print('CLUIE: Canvas resolution fetching error. Check if you typed it in following format [WIDTH]x[HEIGHT].')
 
@@ -52,6 +54,7 @@ class CLUIEngine:
     
     def generate_model(self, model_type):
         self.view_model = models.get_model(self, model_type)
+        print(self.view_model)
 
     def add_column(self, name, width):
         if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
