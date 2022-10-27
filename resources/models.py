@@ -20,6 +20,12 @@ def calculate_widths(settings, new_column=None):
 def get_model(settings, model_type):
     columns = []
     column_sizes = calculate_widths(settings)
+    first_row, second_row, third_row = '┏', '┃', '┣'
     for i in range(len(settings.columns)):
         columns.append([settings.columns[i][0], column_sizes[i]])
-    return columns
+        first_row += '━'*columns[i][1] + '┳'
+        second_row += ((columns[i][0] + ' '*(columns[i][1]-len(columns[i][0]))) if len(columns[i][0]) <= columns[i][1] else (columns[i][0][:columns[i][1]-1] + '…')) + '┃'
+        third_row += '━'*columns[i][1] + '╋'
+    first_row, third_row = first_row[:-1] + '┓', third_row[:-1] + '┫'
+
+    return first_row + '\n' + second_row + '\n' + third_row
