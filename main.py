@@ -7,6 +7,7 @@ class CLUIEngine:
         self.position = [0, 0]
         self.content = []
         self.columns = []
+        self.ishidden = True
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
@@ -51,9 +52,11 @@ class CLUIEngine:
     
     def generate_model(self, model_type):
         self.view_model = models.get_model(self, model_type)
+        print(self.columns)
+        print(self.view_model)
 
     def add_column(self, name, width):
-        if 5 > self.canvas_width/len(self.columns):
+        if len(self.columns) == 0 or 5 < self.canvas_width/len(self.columns):
             self.columns.append([name, width])
         else:
             print('CLUIE: One column must be at least 3 units wide.')
