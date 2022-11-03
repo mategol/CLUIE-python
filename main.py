@@ -1,10 +1,20 @@
 import resources.view_generator as vgen
 import resources.models as models
 from pynput import keyboard
+import math
 import os
 
-class CLUIEngine:
+class engine:
     def __init__(self, model, resolution, controlling_keys):
+        self.settings = {
+            'margin_left': 0,
+            'margin_right': 0,
+            'margin_top': 0,
+            'margin_bottom': 0,
+            'column_label_margin': 0,
+            'row_entry_margin': 0
+        }
+
         self.position = [0, 0]
         self.content = []
         self.columns = []
@@ -12,6 +22,7 @@ class CLUIEngine:
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
+            self.view_anchor = math.floor((self.canvas_height-4)/2)
             os.system('mode ' + str(self.canvas_width+2) + ',' + str(self.canvas_height))
         except:
             print('CLUIE: Canvas resolution fetching error. Check if you typed it in following format [WIDTH]x[HEIGHT].')
@@ -42,14 +53,32 @@ class CLUIEngine:
         except:
             print('CLUIE: Controlling keys assign error. Check documentation for more information.')
 
-
     def display(self):
         listener = keyboard.Listener(on_press=self.on_press).start()
-        vgen.update_canvas(None, self.model, self.position, self.content)
+        vgen.update_canvas(None, self.model, self.position, self.content, self.column_widths, self.view_anchor, self)
+
+    def configure(self, setting, value):
+        if setting in self.settings.keys():
+            self.settings[setting] = value
+        else:
+            print('CLUIE: There is no such setting as ' + str(setting) + '. Check documentation for available settings to configure.')
+
+    def add_row(self, row):
+        if type(row) == str:
+            row = [row]
+        if len(row) > len(self.columns):
+            row = row[:len(self.columns)]
+        elif len(row) < len(self.columns):
+            for i in range(len(self.columns)-len(row)):
+                row.append('')
+        self.content.append(row)
+        print(self.content)
 
     def add_column(self, name, width):
         if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
             self.columns.append([name, width])
+            self.model = models.get_model(self, self.model['model_id'])
+            self.column_widths = models.calculate_widths(self)
         else:
             print('CLUIE: One column must be at least 3 units wide.')
 
@@ -57,9 +86,9 @@ class CLUIEngine:
         key = str(key).replace('\'', '')
         pressed_key = None
         match key:
-            case self.key_up: pressed_key = 'up'; self.position[1] += 1
-            case self.key_down: pressed_key = 'down'; self.position[1] -= 1
-            case self.key_left: pressed_key = 'left'; self.position[0] -= 1
-            case self.key_right: pressed_key = 'right'; self.position[0] += 1
+            case self.key_up: pressed_key = 'up'; self.position[1] -= 1
+            case self.key_down: pressed_key = 'down'; self.position[1] += 1
+            case self.key_left: pressed_key = 'left'; self.position[0] += 1
+            case self.key_right: pressed_key = 'right'; self.position[0] -= 1
             case self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
-        if pressed_key != None: vgen.update_canvas(pressed_key, self.model, self.position, self.content)
+        if pressed_key != None: vgen.update_canvas(pressed_key, self.model, self.position, self.content, self.column_widths, self.view_anchor, self)
