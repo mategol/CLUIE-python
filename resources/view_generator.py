@@ -18,14 +18,18 @@ def update_canvas(reason, model, position, content, settings, view_anchor, contr
             if row == position[1]:
                 ready_row = model['divider'] + Back.WHITE + Fore.BLACK
                 for cell in range(len(content[row])):
-                    ready_row += content[row][cell] + ' '*(settings[cell]-len(content[row][cell])+1)
+                    ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(settings[cell]-len(content[row][cell])+1-controller.settings['row_entry_margin'])
                 ready_row = ready_row[:-1] + Back.RESET + Fore.RESET + model['divider']
             elif row < len(content):
                 ready_row = model['divider']
                 for cell in range(len(content[row])):
-                    ready_row += content[row][cell] + ' '*(settings[cell]-len(content[row][cell])) + model['divider']
+                    ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(settings[cell]-len(content[row][cell])-controller.settings['row_entry_margin']) + model['divider']
             else:
                 ready_row = model['divider']
                 for cell in range(len(settings)):
                     ready_row += ' '*((settings[cell])) + model['divider']
             print(ready_row)
+        last_row = '┗'
+        for column in range(len(settings)):
+            last_row += '━'*settings[column] + '┻'
+        print(last_row[:-1] + '┛', end='\r')
