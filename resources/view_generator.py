@@ -3,7 +3,16 @@ from os import system
 
 init(autoreset=True)
 
-def update_canvas(reason, model, position, content, settings, view_anchor, controller):
+def update_canvas(reason, model, position, content_raw, settings, view_anchor, controller):
+    content = []
+    for row in range(len(content_raw)):
+        content.append([])
+        for cell in range(len(content_raw[row])):
+            if len(content_raw[row][cell]) > settings[cell]-controller.settings['row_entry_margin']:
+                content[-1].append(content_raw[row][cell][:settings[cell]-controller.settings['row_entry_margin']-1]+'…')
+            else:
+                content[-1].append(content_raw[row][cell])
+
     if model['model_id'] == 'FramedList':
         ready_row = ''
         system('cls')
