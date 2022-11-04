@@ -60,6 +60,7 @@ class engine:
     def configure(self, setting, value):
         if setting in self.settings.keys():
             self.settings[setting] = value
+            self.model = models.get_model(self, self.model['model_id'])
         else:
             print('CLUIE: There is no such setting as ' + str(setting) + '. Check documentation for available settings to configure.')
 
