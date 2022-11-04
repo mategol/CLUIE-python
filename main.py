@@ -57,12 +57,18 @@ class engine:
         listener = keyboard.Listener(on_press=self.on_press).start()
         vgen.update_canvas(None, self.model, self.position, self.content, self.column_widths, self.view_anchor, self)
 
-    def configure(self, setting, value):
-        if setting in self.settings.keys():
-            self.settings[setting] = value
-            self.model = models.get_model(self, self.model['model_id'])
+    def configure(self, setting, value=None):
+        if type(setting) == list:
+            for i in setting:
+                self.configure(i[0], i[1])
+        elif value != None:
+            if setting in self.settings.keys():
+                self.settings[setting] = value
+                self.model = models.get_model(self, self.model['model_id'])
+            else:
+                print('CLUIE: There is no such setting as ' + str(setting) + '. Check documentation for available settings to configure.')
         else:
-            print('CLUIE: There is no such setting as ' + str(setting) + '. Check documentation for available settings to configure.')
+            print('CLUIE: You cannot leave empty value.')
 
     def add_row(self, row):
         if type(row) == str:
