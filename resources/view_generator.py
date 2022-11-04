@@ -1,5 +1,6 @@
 from colorama import init, Fore, Back, Style
 from os import system
+from math import floor, ceil
 
 init(autoreset=True)
 
@@ -23,7 +24,7 @@ def update_canvas(reason, model, position, content_raw, settings, view_anchor, c
         elif position[1] < 0:
             position[1] = 0
 
-        for row in range(view_anchor-8, view_anchor+8):
+        for row in range(view_anchor-floor((controller.canvas_height-4)/2), view_anchor+ceil((controller.canvas_height-4)/2)):
             if row == position[1]:
                 ready_row = model['divider'] + Back.WHITE + Fore.BLACK
                 for cell in range(len(content[row])):
