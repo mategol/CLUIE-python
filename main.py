@@ -75,13 +75,17 @@ class engine:
         self.content.append(row)
         print(self.content)
 
-    def add_column(self, name, width):
-        if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
-            self.columns.append([name, width])
-            self.model = models.get_model(self, self.model['model_id'])
-            self.column_widths = models.calculate_widths(self)
+    def add_column(self, name, width='auto'):
+        if type(name) == list:
+            for column in name:
+                self.add_column(column[0], column[1] if len(column) > 1 else 'auto')
         else:
-            print('CLUIE: One column must be at least 3 units wide.')
+            if len(self.columns) == 0 or (0 not in models.calculate_widths(self, [name, width]) and 1 not in models.calculate_widths(self, [name, width]) and 2 not in models.calculate_widths(self, [name, width])):
+                self.columns.append([name, width])
+                self.model = models.get_model(self, self.model['model_id'])
+                self.column_widths = models.calculate_widths(self)
+            else:
+                print('CLUIE: One column must be at least 3 units wide.')
 
     def on_press(self, key):
         key = str(key).replace('\'', '')
