@@ -78,8 +78,7 @@ class engine:
         elif len(row) < len(self.columns):
             for i in range(len(self.columns)-len(row)):
                 row.append('')
-        self.content.append(row)
-        print(self.content)
+        self.content.append(list(map(str, row)))
 
     def add_column(self, name, width='auto'):
         if type(name) == list:
