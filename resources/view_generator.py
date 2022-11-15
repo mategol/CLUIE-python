@@ -28,6 +28,8 @@ def update_canvas(reason, controller):
                 controller.view_anchor += 1
             elif controller.position[1] < controller.view_anchor + controller.settings['list_scroll_margin'] and controller.view_anchor > 0:
                 controller.view_anchor -= 1
+        else:
+            controller.view_anchor = 0
 
         for row in range(controller.view_anchor, controller.view_anchor+floor(controller.canvas_height-4)):
             ready_row = controller.settings['margin_left']*' '
