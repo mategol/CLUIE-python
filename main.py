@@ -56,6 +56,16 @@ class engine:
         except:
             print('CLUIE: Controlling keys assign error. Check documentation for more information.')
 
+    def save(self, name):
+        with open(name + '.menu', 'w') as save_menu:
+            save_menu.write(str(self.canvas_width) + '\n')
+            save_menu.write(str(self.canvas_height) + '\n')
+            save_menu.write(str(self.settings) + '\n')
+            save_menu.write(str(self.columns) + '\n')
+            save_menu.write(str(self.column_widths) + '\n')
+            save_menu.write(str(self.content) + '\n')
+            save_menu.write(str(self.content_ids) + '\n')
+
     def display(self):
         listener = keyboard.Listener(on_press=self.on_press).start()
         vgen.update_canvas(None, self)
