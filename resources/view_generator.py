@@ -30,21 +30,22 @@ def update_canvas(reason, controller):
                 controller.view_anchor -= 1
 
         for row in range(controller.view_anchor, controller.view_anchor+floor(controller.canvas_height-4)):
+            ready_row = controller.settings['margin_left']*' '
             if row == controller.position[1]:
-                ready_row = controller.model['divider'] + Back.WHITE + Fore.BLACK
+                ready_row += controller.model['divider'] + Back.WHITE + Fore.BLACK
                 for cell in range(len(content[row])):
                     ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])+1-controller.settings['row_entry_margin'])
                 ready_row = ready_row[:-1] + Back.RESET + Fore.RESET + controller.model['divider']
             elif row < len(content):
-                ready_row = controller.model['divider']
+                ready_row += controller.model['divider']
                 for cell in range(len(content[row])):
                     ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])-controller.settings['row_entry_margin']) + controller.model['divider']
             else:
-                ready_row = controller.model['divider']
+                ready_row += controller.model['divider']
                 for cell in range(len(controller.column_widths)):
                     ready_row += ' '*((controller.column_widths[cell])) + controller.model['divider']
             print(ready_row)
-        last_row = '┗'
+        last_row = controller.settings['margin_left']*' ' + '┗'
         for column in range(len(controller.column_widths)):
             last_row += '━'*controller.column_widths[column] + '┻'
-        print(last_row[:-1] + '┛', end='\r')
+        print(last_row[:-1] + '┛' + controller.settings['margin_right']*' ' + controller.settings['margin_bottom']*'\n', end='\r')
