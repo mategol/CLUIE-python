@@ -1,7 +1,6 @@
 import resources.view_generator as vgen
 import resources.models as models
 from pynput import keyboard
-import math
 import os
 
 class engine:
@@ -65,6 +64,9 @@ class engine:
         elif value != None:
             if setting in self.settings.keys():
                 self.settings[setting] = value
+                match setting:
+                    case 'margin_left'|'margin_right'|'margin_top'|'margin_bottom':
+                        os.system('mode ' + str(self.canvas_width+2+int(self.settings['margin_left']+self.settings['margin_right'])) + ',' + str(self.canvas_height+self.settings['margin_top']+self.settings['margin_bottom']))
                 self.model = models.get_model(self, self.model['model_id'])
             else:
                 print('CLUIE: There is no such setting as ' + str(setting) + '. Check documentation for available settings to configure.')
