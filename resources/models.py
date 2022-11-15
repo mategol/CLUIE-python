@@ -20,7 +20,7 @@ def calculate_widths(controller, new_column=None):
 def get_model(controller, model_type):
     columns = []
     column_sizes = calculate_widths(controller)
-    first_row, second_row, third_row = '┏', '┃', '┣'
+    first_row, second_row, third_row = controller.settings['margin_left']*' ' + '┏', controller.settings['margin_left']*' ' + '┃', controller.settings['margin_left']*' ' + '┣'
     for i in range(len(controller.columns)):
         columns.append([controller.columns[i][0], column_sizes[i]])
         first_row += '━'*columns[i][1] + '┳'
@@ -28,4 +28,4 @@ def get_model(controller, model_type):
         third_row += '━'*columns[i][1] + '╋'
     first_row, third_row = first_row[:-1] + '┓', third_row[:-1] + '┫'
 
-    return {'model_id': 'FramedList', 'first_row': first_row, 'second_row': second_row, 'third_row': third_row, 'divider': '┃', 'columns': columns}
+    return {'model_id': 'FramedList', 'first_row': controller.settings['margin_top']*'\n' + first_row + controller.settings['margin_right']*' ', 'second_row': second_row + controller.settings['margin_right']*' ', 'third_row': third_row + controller.settings['margin_right']*' ', 'divider': '┃', 'columns': columns}
