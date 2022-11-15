@@ -12,7 +12,8 @@ class engine:
             'margin_top': 0,
             'margin_bottom': 0,
             'column_label_margin': 0,
-            'row_entry_margin': 0
+            'row_entry_margin': 0,
+            'list_scroll_margin': 1
         }
 
         self.position = [0, 0]
@@ -22,7 +23,7 @@ class engine:
         try:
             self.canvas_width = int(resolution.split('x')[0])
             self.canvas_height = int(resolution.split('x')[1])
-            self.view_anchor = math.floor((self.canvas_height-4)/2)
+            self.view_anchor = 1
             os.system('mode ' + str(self.canvas_width+2) + ',' + str(self.canvas_height))
         except:
             print('CLUIE: Canvas resolution fetching error. Check if you typed it in following format [WIDTH]x[HEIGHT].')
