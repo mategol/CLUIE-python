@@ -2,6 +2,7 @@ import resources.view_generator as vgen
 import resources.models as models
 from pynput import keyboard
 import os
+import cursor
 
 class engine:
     def __init__(self, model, resolution, controlling_keys):
@@ -15,8 +16,10 @@ class engine:
             'list_scroll_margin': 1
         }
 
+        self.submitted = []
         self.position = [0, 0]
         self.content = []
+        self.content_ids = []
         self.columns = []
 
         try:
@@ -56,6 +59,7 @@ class engine:
     def display(self):
         listener = keyboard.Listener(on_press=self.on_press).start()
         vgen.update_canvas(None, self)
+        cursor.hide()
 
     def configure(self, setting, value=None):
         if type(setting) == list:
@@ -73,7 +77,7 @@ class engine:
         else:
             print('CLUIE: You cannot leave empty value.')
 
-    def add_row(self, row):
+    def add_row(self, row, id=None):
         if type(row) == str:
             row = [row]
         if len(row) > len(self.columns):
@@ -81,6 +85,7 @@ class engine:
         elif len(row) < len(self.columns):
             for i in range(len(self.columns)-len(row)):
                 row.append('')
+        self.content_ids.append(id)
         self.content.append(list(map(str, row)))
 
     def add_column(self, name, width='auto'):
@@ -95,6 +100,12 @@ class engine:
             else:
                 print('CLUIE: One column must be at least 3 units wide.')
 
+    def await_submission(self):
+        input()
+        temp = self.submitted
+        self.submitted = []
+        return temp
+
     def on_press(self, key):
         key = str(key).replace('\'', '')
         pressed_key = None
@@ -103,5 +114,8 @@ class engine:
             case self.key_down: pressed_key = 'down'; self.position[1] += 1
             case self.key_left: pressed_key = 'left'; self.position[0] += 1
             case self.key_right: pressed_key = 'right'; self.position[0] -= 1
-            case self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
+            case self.key_submit:
+                if self.model['model_id'] == 'FramedList':
+                    self.submitted = [self.content[self.position[1]], self.content_ids[self.position[1]]]
+                pressed_key = 'submit'; self.position = [0, 0]; self.view_anchor = 1
         if pressed_key != None: vgen.update_canvas(pressed_key, self)
