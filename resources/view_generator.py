@@ -5,7 +5,6 @@ from math import floor, ceil
 init(autoreset=True)
 
 def update_canvas(reason, controller):
-    
     content = []
     for row in range(len(controller.content)):
         content.append([])
@@ -25,12 +24,12 @@ def update_canvas(reason, controller):
             controller.position[1] = 0
 
         if len(content) > controller.canvas_height-4:
-            if controller.position[1] > controller.view_anchor + floor((controller.canvas_height-4)/3):
+            if controller.position[1] > controller.view_anchor + floor(controller.canvas_height-4-controller.settings['list_scroll_margin']-1):
                 controller.view_anchor += 1
-            elif controller.position[1] < controller.view_anchor - (floor((controller.canvas_height-4)/3)) and controller.position[1] > 1:
+            elif controller.position[1] < controller.view_anchor + controller.settings['list_scroll_margin'] and controller.view_anchor > 0:
                 controller.view_anchor -= 1
 
-        for row in range(controller.view_anchor-floor((controller.canvas_height-4)/2), controller.view_anchor+ceil((controller.canvas_height-4)/2)):
+        for row in range(controller.view_anchor, controller.view_anchor+floor(controller.canvas_height-4)):
             if row == controller.position[1]:
                 ready_row = controller.model['divider'] + Back.WHITE + Fore.BLACK
                 for cell in range(len(content[row])):
