@@ -55,7 +55,7 @@ class engine:
 
     def display(self):
         listener = keyboard.Listener(on_press=self.on_press).start()
-        vgen.update_canvas(None, self.model, self.position, self.content, self.column_widths, self.view_anchor, self)
+        vgen.update_canvas(None, self)
 
     def configure(self, setting, value=None):
         if type(setting) == list:
@@ -101,4 +101,4 @@ class engine:
             case self.key_left: pressed_key = 'left'; self.position[0] += 1
             case self.key_right: pressed_key = 'right'; self.position[0] -= 1
             case self.key_submit: pressed_key = 'submit'; self.position = [0, 0]
-        if pressed_key != None: vgen.update_canvas(pressed_key, self.model, self.position, self.content, self.column_widths, self.view_anchor, self)
+        if pressed_key != None: vgen.update_canvas(pressed_key, self)
