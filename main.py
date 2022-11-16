@@ -66,6 +66,19 @@ class engine:
             save_menu.write(str(self.content) + '\n')
             save_menu.write(str(self.content_ids) + '\n')
 
+    def load(self, name):
+        with open((name if name[-5:] == '.menu' else name[:-5]), 'r') as load_menu:
+            data = load_menu.readlines()
+        exec('self.canvas_width = ' + str(data[0][:-1]))
+        exec('self.canvas_height = ' + str(data[1][:-1]))
+        exec('self.settings = ' + str(data[2][:-1]))
+        exec('self.columns = ' + str(data[3][:-1]))
+        exec('self.column_widths = ' + str(data[4][:-1]))
+        exec('self.content = ' + str(data[5][:-1]))
+        exec('self.content_ids = ' + str(data[6][:-1]))
+        self.model = models.get_model(self, self.model['model_id'])
+        os.system('mode ' + str(self.canvas_width+2+int(self.settings['margin_left']+self.settings['margin_right'])) + ',' + str(self.canvas_height+self.settings['margin_top']+self.settings['margin_bottom']))
+
     def display(self):
         listener = keyboard.Listener(on_press=self.on_press).start()
         vgen.update_canvas(None, self)
