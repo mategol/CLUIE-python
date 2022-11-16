@@ -9,8 +9,8 @@ def update_canvas(reason, controller):
     for row in range(len(controller.content)):
         content.append([])
         for cell in range(len(controller.content[row])):
-            if len(controller.content[row][cell]) > controller.column_widths[cell]-controller.settings['row_entry_margin']:
-                content[-1].append(controller.content[row][cell][:controller.column_widths[cell]-controller.settings['row_entry_margin']-1]+'…')
+            if len(controller.content[row][cell]) > controller.column_widths[cell]-controller.settings['row_entry_margin']-len(controller.settings['pointer']):
+                content[-1].append(controller.content[row][cell][:controller.column_widths[cell]-controller.settings['row_entry_margin']-len(controller.settings['pointer'])-1]+'…')
             else:
                 content[-1].append(controller.content[row][cell])
 
@@ -34,14 +34,14 @@ def update_canvas(reason, controller):
         for row in range(controller.view_anchor, controller.view_anchor+floor(controller.canvas_height-4)):
             ready_row = controller.settings['margin_left']*' '
             if row == controller.position[1]:
-                ready_row += controller.model['divider'] + Back.WHITE + Fore.BLACK
+                ready_row += controller.model['divider'] + controller.settings['pointer'] + Back.WHITE + Fore.BLACK
                 for cell in range(len(content[row])):
-                    ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])+1-controller.settings['row_entry_margin'])
+                    ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])+1-controller.settings['row_entry_margin']-(len(controller.settings['pointer']) if cell == 0 else 0))
                 ready_row = ready_row[:-1] + Back.RESET + Fore.RESET + controller.model['divider']
             elif row < len(content):
                 ready_row += controller.model['divider']
                 for cell in range(len(content[row])):
-                    ready_row += ' '*controller.settings['row_entry_margin'] + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])-controller.settings['row_entry_margin']) + controller.model['divider']
+                    ready_row += ' '*(controller.settings['row_entry_margin']+(len(controller.settings['pointer']) if cell == 0 else 0)) + content[row][cell] + ' '*(controller.column_widths[cell]-len(content[row][cell])-controller.settings['row_entry_margin']-(len(controller.settings['pointer']) if cell == 0 else 0)) + controller.model['divider']
             else:
                 ready_row += controller.model['divider']
                 for cell in range(len(controller.column_widths)):
