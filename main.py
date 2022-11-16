@@ -124,7 +124,10 @@ class engine:
                 print('CLUIE: One column must be at least 3 units wide.')
 
     def await_submission(self):
-        input()
+        with keyboard.Events() as events:
+            for event in events:
+                if str(event.key) == self.key_submit:
+                    break
         temp = self.submitted
         self.submitted = []
         return temp
