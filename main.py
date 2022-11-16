@@ -11,6 +11,8 @@ class engine:
             'margin_right': 0,
             'margin_top': 0,
             'margin_bottom': 0,
+            'top_header': [],
+            'bottom_footer': [],
             'column_label_margin': 0,
             'row_entry_margin': 0,
             'list_scroll_margin': 1
