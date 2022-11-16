@@ -47,7 +47,16 @@ def update_canvas(reason, controller):
                 for cell in range(len(controller.column_widths)):
                     ready_row += ' '*((controller.column_widths[cell])) + controller.model['divider']
             print(ready_row)
-        last_row = controller.settings['margin_left']*' ' + '┗'
+        last_row, footer = controller.settings['margin_left']*' ' + '┗', ''
         for column in range(len(controller.column_widths)):
             last_row += '━'*controller.column_widths[column] + '┻'
-        print(last_row[:-1] + '┛' + controller.settings['margin_right']*' ' + controller.settings['margin_bottom']*'\n', end='\r')
+
+        if len(controller.settings['bottom_footer']) > 0:
+            if len(controller.settings['bottom_footer']) > controller.settings['margin_bottom']:
+                footer = '\n' + '\n'.join(controller.settings['bottom_footer'][:controller.settings['margin_bottom']])
+            else:
+                footer = '\n' + '\n'.join(controller.settings['bottom_footer']) + (controller.settings['margin_bottom']-len(controller.settings['bottom_footer']))*'\n'
+        else:
+            footer = controller.settings['margin_bottom']*'\n'
+
+        print(last_row[:-1] + '┛' + controller.settings['margin_right']*' ' + footer, end='\r')
