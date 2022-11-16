@@ -59,7 +59,7 @@ class engine:
             print('CLUIE: Controlling keys assign error. Check documentation for more information.')
 
     def save(self, name):
-        with open(name + '.menu', 'w') as save_menu:
+        with open((name if name[-5:] != '.menu' else name[:-5]) + '.menu', 'w') as save_menu:
             save_menu.write(str(self.canvas_width) + '\n')
             save_menu.write(str(self.canvas_height) + '\n')
             save_menu.write(str(self.settings) + '\n')
@@ -69,7 +69,7 @@ class engine:
             save_menu.write(str(self.content_ids) + '\n')
 
     def load(self, name):
-        with open((name if name[-5:] == '.menu' else name[:-5]), 'r') as load_menu:
+        with open((name if name[-5:] != '.menu' else name[:-5]) + '.menu', 'r') as load_menu:
             data = load_menu.readlines()
         exec('self.canvas_width = ' + str(data[0][:-1]))
         exec('self.canvas_height = ' + str(data[1][:-1]))
