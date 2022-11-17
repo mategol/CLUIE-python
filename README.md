@@ -1,10 +1,10 @@
 # CLUIE-python
-Python Command-Line User-Interface Engine made to give you an option to create Graphical-Interface in console application.<br /><br />
+Python Command-Line User-Interface Engine made to give you an option to create Graphical-Interface in console application.<br /><br /><br />
 
 # Installation
-`pip install cluie` - remember that this package <b>supports only Windows OS</b> currently.<br /><br />
+`pip install cluie` - remember that this package <b>supports only Windows OS</b> currently.<br /><br /><br />
 
-# Quick start
+# Quick start<br />
 > First of all, you need to initialize the engine with:
 ```python
 import CLUIE
@@ -12,7 +12,7 @@ gui = CLUIE.engine('FramedList', '50x20', 'ARROWSE')
 ```
 `1st argument` specifies GUI model. All models are listed and described further below.<br />
 `2nd argument` sets resolution in console-characters "units" (50 characters wide and 20 characters tall in this case).<br />
-`3rd argument` sets controlling key-setup. 'ARROWSE' means that you navigate by arrows and submit with ENTER.<br /><br />
+`3rd argument` sets controlling key-setup. 'ARROWSE' means that you navigate by arrows and submit with ENTER.<br /><br /><br />
 
 > Next, you can start adding columns to your menu (in this case, we will make menu for file selection):
 ```python
@@ -32,7 +32,7 @@ gui.add_column([
     ['Size:', 8]
 ])
 ```
-`1st argument` is list with desired columns in following syntax -> `[[LABEL, WIDTH], [LABEL, WIDTH] ... ]`<br /><br />
+`1st argument` is list with desired columns in following syntax -> `[[LABEL, WIDTH], [LABEL, WIDTH] ... ]`<br /><br /><br />
 
 > Now, you can fill the menu with rows:
 ```python
@@ -41,7 +41,7 @@ gui.add_row(['main.py', '56KB'], '#main')
 gui.add_row(['funnymeme.png', '2MB'], '#meme')
 ```
 `1st argument` contains full row as list with single cells. Whole list is whole row, and single list-element is single cell.<br />
-`2nd argument` is declared row-ID that will be useful later. Left empty sets ID to *None*<br /><br />
+`2nd argument` is declared row-ID that will be useful later. Left empty sets ID to *None*<br /><br /><br />
 
 > How do you configure settings?
 ```python
@@ -61,31 +61,31 @@ gui.configure([
 ])
 ```
 `1st argument` is setting that you want to change<br />
-`2nd argument` is new value of specified setting<br /><br />
+`2nd argument` is new value of specified setting<br /><br /><br />
 
 > If you are happy with the menu layout and content, you can display it with:
 ```python
 gui.display()
 ```
-<br />
+<br /><br />
 
 > You can also get selected values by awaiting for user response:
 ```python
 selected_item = gui.await_submission()
 ```
-`This function` returns ID assigned to row that will be selected by the user.<br /><br />
+`This function` returns ID assigned to row that will be selected by the user.<br /><br /><br />
 
 > Saving menu for later quick and simple use:
 ```python
 gui.save('default.menu')
 ```
-`1st argument` specifies filename of the menu to save<br /><br />
+`1st argument` specifies filename of the menu to save<br /><br /><br />
 
 > Loading saved menu:
 ```python
 gui.load('default.menu')
 ```
-`1st argument` specifies filename of the saved menu<br /><br />
+`1st argument` specifies filename of the saved menu<br /><br /><br />
 
 # There are several configurable settings that allow you to customize the menu as you want:
 ```yaml
@@ -100,7 +100,7 @@ column_label_margin: Sets column label offset
 row_entry_margin: Sets row entry offset
 list_scroll_margin: Hard to explain, shown below
 ```
-<br />
+<br /><br />
 
 
 
