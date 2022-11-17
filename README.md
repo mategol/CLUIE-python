@@ -43,7 +43,51 @@ gui.add_row(['funnymeme.png', '2MB'], '#meme')
 `1st argument` contains full row as list with single cells. Whole list is whole row, and single list-element is single cell.<br />
 `2nd argument` is declared row-ID that will be useful later. Left empty sets ID to *None*<br /><br />
 
-> There are several configurable settings that allow you to customize the menu as you want:
+> How do you configure settings?
+```python
+gui.configure('margin_left', 1)
+```
+`1st argument` is setting that you want to change<br />
+`2nd argument` is new value of specified setting<br />
+
+or multiple settings in one line:
+
+```python
+gui.configure([['margin_left', 1], ['margin_right', 1]])
+# or
+gui.configure([
+    ['margin_left', 1],
+    ['margin_right', 1]
+])
+```
+`1st argument` is setting that you want to change<br />
+`2nd argument` is new value of specified setting<br /><br />
+
+> If you are happy with the menu layout and content, you can display it with:
+```python
+gui.display()
+```
+<br />
+
+> You can also get selected values by awaiting for user response:
+```python
+selected_item = gui.await_submission()
+```
+`This function` returns ID assigned to row that will be selected by the user.<br /><br />
+
+> Saving menu for later quick and simple use:
+```python
+gui.save('default.menu')
+```
+`1st argument` specifies filename of the menu to save<br /><br />
+
+> Loading saved menu:
+```python
+gui.load('default.menu')
+```
+`1st argument` specifies filename of the saved menu<br /><br />
+
+# There are several configurable settings that allow you to customize the menu as you want:
 ```yaml
 margin_left: Sets blank space on the left of menu
 margin_right: Sets blank space on the right of menu
@@ -57,27 +101,6 @@ row_entry_margin: Sets row entry offset
 list_scroll_margin: Hard to explain, shown below
 ```
 <br />
-
-> How do you configure settings?
-```python
-gui.configure('margin_left', 1)
-```
-`1st argument` is setting that you want to change<br />
-`2nd argument` is new value of specified setting<br />
-
-or multiple settings in one line:
-```python
-gui.configure([['margin_left', 1], ['margin_right', 1]])
-# or
-gui.configure([
-    ['margin_left', 1],
-    ['margin_right', 1]
-])
-```
-`1st argument` is setting that you want to change<br />
-`2nd argument` is new value of specified setting<br />
-
-
 
 
 
